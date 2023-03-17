@@ -52,7 +52,11 @@ const MovieDetails = () => {
           maxWidth="80vw"
           mx="auto"
           spacing={2}
-          sx={{ transform: "translate(0px,-200px)", color: "white" }}
+          sx={{
+            transform: "translate(0px,-200px)",
+            color: "white",
+            textShadow: "2px 2px 4px rgba(0, 0, 0, 0.6)",
+          }}
         >
           <Box>
             <img
