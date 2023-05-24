@@ -4,7 +4,7 @@ This website provides details and ratings of the movies, with new, popular, tren
 
 ## Demo
 
-<a href="https://movies-hive.netlify.app/" target="_blank">Click Here</a> for Live Preview
+<a href="https://movies-hive.netlify.app/" target="_blank">Click Here</a> for Live Preview.
 
 ## Tech Stack
 
