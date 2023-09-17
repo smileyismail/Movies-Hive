@@ -1,7 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 
-import Movies from "./components/Movies/Movies";
+import MoviesPage from "./Pages/MoviesPage";
 import MovieDetails from "./components/Movies/MovieDetails";
 import Header from "./components/UI/Header";
 import LandingPage from "./Pages/LandingPage";
@@ -13,7 +13,7 @@ const App = () => {
       <main className="pt-20 p-6 h-full">
         <Routes>
           <Route index element={<LandingPage />} />
-          <Route path="movies/:type" element={<Movies />} />
+          <Route path="movies/:type" element={<MoviesPage />} />
           <Route path="movie/:id" element={<MovieDetails />} />
 
           <Route
