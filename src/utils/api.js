@@ -62,7 +62,6 @@ export async function fetchTopRatedMovies(page) {
 export function fetchMovieGenresList() {
   return apiCall(movieGenresEndpoint);
 }
-
 export function fetchSearchMovies(params) {
   return apiCall(searchMoviesEndpoint, params);
 }
@@ -74,19 +73,15 @@ export function fetchImage500(path) {
 export function fetchMovieDetails(id) {
   return apiCall(movieDetailsEndpoint(id));
 }
-
 export function fetchMovieCast(id) {
   return apiCall(movieCastEndpoint(id));
 }
-
 export function fetchSimilarMovies(id) {
   return apiCall(similarMoviesEndpoint(id));
 }
-
 export function fetchPersonDetails(id) {
   return apiCall(personDetailsEndpoint(id));
 }
-
 export function fetchPersonMovies(id) {
   return apiCall(personMoviesEndpoint(id));
 }

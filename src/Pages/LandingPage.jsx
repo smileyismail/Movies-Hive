@@ -70,7 +70,7 @@ const LandingPage = () => {
   }
 
   return (
-    <div>
+    <div className="p-6">
       <MoviesList
         title="Upcoming Movies"
         movies={upcomingMovies}

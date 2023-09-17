@@ -74,7 +74,7 @@ const MoviesPage = () => {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold mt-4">
+      <h1 className="text-2xl font-semibold mt-4 pl-6">
         {type}{" "}
         <span className="text-base text-neutral-400 font-normal">
           ({data.total_results})
