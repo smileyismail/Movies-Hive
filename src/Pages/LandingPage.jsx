@@ -7,7 +7,7 @@ import {
   fetchMovieGenresList,
   fetchPopularMovies,
   fetchTopRatedMovies,
-  fetchUpComingMovies,
+  fetchUpcomingMovies,
 } from "../utils/api";
 import { useEffect } from "react";
 
@@ -27,7 +27,7 @@ const LandingPage = () => {
 
   async function getUpComingMovies() {
     setLoading(true);
-    const data = await fetchUpComingMovies();
+    const data = await fetchUpcomingMovies();
     if (data && data.results) {
       setUpcomingMovies(data.results);
     } else {

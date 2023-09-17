@@ -1,15 +1,18 @@
 import React from "react";
 
 import MovieCard from "./MovieCard";
+import { Link } from "react-router-dom";
 
 const MoviesList = ({ title, movies, genresList }) => {
   return (
     <div className="my-4 mb-16">
       <div className="flex justify-between items-center mb-4">
         <h1 className="text-2xl font-semibold">{title}</h1>
-        <button className="bg-accent font-bold p-1.5 rounded-md">
-          See All
-        </button>
+        <Link to={`/movies/${title}`}>
+          <button className="bg-accent font-bold p-1.5 rounded-md">
+            See All
+          </button>
+        </Link>
       </div>
 
       <div>

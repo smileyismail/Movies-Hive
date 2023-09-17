@@ -9,7 +9,7 @@ import {
   fetchPopularMovies,
   fetchSearchMovies,
   fetchTopRatedMovies,
-  fetchUpComingMovies,
+  fetchUpcomingMovies,
 } from "../utils/api";
 import MovieCard from "../components/Movies/MovieCard";
 
@@ -27,7 +27,7 @@ const MoviesPage = () => {
       let data;
       switch (type) {
         case "Upcoming Movies":
-          data = await fetchUpComingMovies(page);
+          data = await fetchUpcomingMovies(page);
           break;
         case "Popular Movies":
           data = await fetchPopularMovies(page);

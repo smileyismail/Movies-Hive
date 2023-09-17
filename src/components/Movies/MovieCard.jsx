@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { fetchImage500 } from "../../utils/api";
+import { Link } from "react-router-dom";
 
 const MovieCard = ({ movie, genresList, title }) => {
   const [windowDimensions, setWindowDimensions] = useState({
@@ -30,10 +31,7 @@ const MovieCard = ({ movie, genresList, title }) => {
     });
   };
 
-  let dynamicContent = {
-    name: "",
-    value: "",
-  };
+  let dynamicContent;
 
   switch (title) {
     case "Upcoming Movies":
@@ -55,70 +53,73 @@ const MovieCard = ({ movie, genresList, title }) => {
       };
       break;
     default:
-      return dynamicContent;
+      dynamicContent = {
+        name: "Ratings :",
+        value: movie.vote_average.toFixed(1),
+      };
   }
 
-  // console.log(movie);
-
   return (
-    <section
-      style={{
-        maxWidth:
-          windowDimensions.width * 0.5 > 260
-            ? 260
-            : windowDimensions.width * 0.5,
-      }}
-      className="flex flex-col h-full gap-2 bg-secondary rounded-md"
-    >
-      <img
-        src={fetchImage500(movie?.poster_path)}
-        alt="movie"
+    <Link to={`/movie/${movie.id}`}>
+      <section
         style={{
           maxWidth:
-            windowDimensions.width * 0.5 > 280
+            windowDimensions.width * 0.5 > 260
               ? 260
               : windowDimensions.width * 0.5,
         }}
-        className={`drop-shadow-2xl object-cover rounded-t-md`}
-      />
+        className="flex flex-col h-full gap-2 bg-secondary rounded-md"
+      >
+        <img
+          src={fetchImage500(movie?.poster_path)}
+          alt="movie"
+          style={{
+            maxWidth:
+              windowDimensions.width * 0.5 > 280
+                ? 260
+                : windowDimensions.width * 0.5,
+          }}
+          className={`drop-shadow-2xl object-cover rounded-t-md`}
+        />
 
-      <div className="px-2 flex flex-col gap-2">
-        <h3 className="font-semibold text-center text-xl">
-          {movie?.original_title.length > 22
-            ? movie?.original_title.slice(0, 22) + "..."
-            : movie?.original_title}
-        </h3>
-
-        <div className="flex justify-center items-center gap-1">
-          {matchedArray.slice(0, 3).map((item, index) => {
-            let showDot = index + 1 !== movie.genre_ids.slice(0, 3).length;
-            return (
-              <p key={index} className="text-neutral-400 text-xs">
-                {item?.name}
-                {showDot ? " /" : ""}
-              </p>
-            );
-          })}
-        </div>
-
-        <div className="flex justify-center items-center bg-neutral-700 rounded-md">
-          <h3 className="text-neutral-400 text-sm">
-            {dynamicContent.name}&nbsp;
+        <div className="px-2 flex flex-col gap-2">
+          <h3 className="font-semibold text-center text-xl">
+            {movie?.original_title.length > 22
+              ? movie?.original_title.slice(0, 22) + "..."
+              : movie?.original_title}
           </h3>
-          <h3 className="text-sm"> {dynamicContent.value}&nbsp;</h3>
+
+          <div className="flex justify-center items-center gap-1">
+            {matchedArray.slice(0, 3).map((item, index) => {
+              let showDot = index + 1 !== movie.genre_ids.slice(0, 3).length;
+              return (
+                <p key={index} className="text-neutral-400 text-xs">
+                  {item?.name}
+                  {showDot ? " /" : ""}
+                </p>
+              );
+            })}
+          </div>
+
+          <div className="flex justify-center items-center bg-neutral-700 rounded-md">
+            <h3 className="text-neutral-400 text-sm">
+              {dynamicContent.name}&nbsp;
+            </h3>
+            <h3 className="text-sm"> {dynamicContent.value}&nbsp;</h3>
+          </div>
+
+          <p className="text-center text-neutral-300">
+            {movie?.overview.length > 50
+              ? movie?.overview.slice(0, 50) + "..."
+              : movie?.overview}
+          </p>
         </div>
 
-        <p className="text-center text-neutral-300">
-          {movie?.overview.length > 50
-            ? movie?.overview.slice(0, 50) + "..."
-            : movie?.overview}
-        </p>
-      </div>
-
-      <button className="bg-accent w-full font-bold p-1.5 rounded-b-md mt-auto">
-        View More
-      </button>
-    </section>
+        <button className="bg-accent w-full font-bold p-1.5 rounded-b-md mt-auto">
+          View More
+        </button>
+      </section>
+    </Link>
   );
 };
 

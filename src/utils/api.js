@@ -4,14 +4,18 @@ const apiKey = "f1261be36c501633c57edf21c6cd5d2c";
 const baseURL = "https://api.themoviedb.org/3";
 
 //static endpoints
-const trendingMoviesEndpoint = `${baseURL}/trending/movie/day?api_key=${apiKey}`;
-const upComingMoviesEndpoint = `${baseURL}/movie/upcoming?api_key=${apiKey}`;
-const popularMoviesEndpoint = `${baseURL}/movie/popular?api_key=${apiKey}`;
-const topRatedMoviesEndpoint = `${baseURL}/trending/movie/day?api_key=${apiKey}`;
 const searchMoviesEndpoint = `${baseURL}/search/movie?api_key=${apiKey}`;
 const movieGenresEndpoint = `${baseURL}/genre/movie/list?api_key=${apiKey}`;
 
 //dynamic endpoints
+export const trendingMoviesEndpoint = (page) =>
+  page ? `${baseURL}/trending/movie/day?api_key=${apiKey}&page=${page}` : null;
+export const upComingMoviesEndpoint = (page) =>
+  page ? `${baseURL}/movie/upcoming?api_key=${apiKey}&page=${page}` : null;
+export const popularMoviesEndpoint = (page) =>
+  page ? `${baseURL}/movie/popular?api_key=${apiKey}&page=${page}` : null;
+export const topRatedMoviesEndpoint = (page) =>
+  page ? `${baseURL}/movie/top_rated?api_key=${apiKey}&page=${page}` : null;
 export const movieDetailsEndpoint = (id) =>
   id ? `${baseURL}/movie/${id}?api_key=${apiKey}` : null;
 export const movieCastEndpoint = (id) =>
@@ -38,19 +42,21 @@ async function apiCall(endpoint, params) {
   }
 }
 
-export async function fetchTrendingMovies() {
-  return apiCall(trendingMoviesEndpoint);
+export async function fetchTrendingMovies(page) {
+  const pageNumber = page ? page : 1;
+  return apiCall(trendingMoviesEndpoint(pageNumber));
 }
-export function fetchUpComingMovies() {
-  return apiCall(upComingMoviesEndpoint);
+export async function fetchUpcomingMovies(page) {
+  const pageNumber = page ? page : 1;
+  return apiCall(upComingMoviesEndpoint(pageNumber));
 }
-
-export function fetchTopRatedMovies() {
-  return apiCall(topRatedMoviesEndpoint);
+export async function fetchPopularMovies(page) {
+  const pageNumber = page ? page : 1;
+  return apiCall(popularMoviesEndpoint(pageNumber));
 }
-
-export function fetchPopularMovies() {
-  return apiCall(popularMoviesEndpoint);
+export async function fetchTopRatedMovies(page) {
+  const pageNumber = page ? page : 1;
+  return apiCall(topRatedMoviesEndpoint(pageNumber));
 }
 
 export function fetchMovieGenresList() {
