@@ -39,14 +39,12 @@ const Header = () => {
               required
               className="bg-primary px-3 py-2 w-[300px] rounded-lg"
             />
-            <Link to={`movies/${value}`}>
-              <button
-                type="submit"
-                className="absolute right-0 top-[50%] translate-y-[-50%] p-2 text-2xl border-l-[1px] border-neutral-600"
-              >
-                <BiSearchAlt2 className="text-accent" />
-              </button>
-            </Link>
+            <button
+              type="submit"
+              className="absolute right-0 top-[50%] translate-y-[-50%] p-2 text-2xl border-l-[1px] border-neutral-600"
+            >
+              <BiSearchAlt2 className="text-accent" />
+            </button>
           </div>
         </form>
       </div>
