@@ -1,115 +1,125 @@
-import { useEffect, useMemo, useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  Card,
-  CardActionArea,
-  CardContent,
-  CardMedia,
-  Typography,
-  Skeleton,
-  Chip,
-  Box,
-  Button,
-} from "@mui/material";
-import StarIcon from "@mui/icons-material/Star";
+import React, { useEffect, useState } from "react";
+import { fetchImage500 } from "../../utils/api";
 
-function MovieCard({ movieData }) {
-  const [isLoading, setIsLoading] = useState(true);
+const MovieCard = ({ movie, genresList, title }) => {
+  const [windowDimensions, setWindowDimensions] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsLoading(false);
-    }, 1500);
-  }, []);
+    window.addEventListener("resize", getWindowSizeHandler);
 
-  const { id, poster_path, title, release_date, vote_average } = movieData;
+    return () => {
+      window.removeEventListener("resize", getWindowSizeHandler);
+    };
+  }, [windowDimensions]);
 
-  const releaseYear = useMemo(
-    () => new Date(release_date).getFullYear(),
-    [release_date]
-  );
+  const matchedArray = movie.genre_ids.map((id) => {
+    const matchedObject = genresList?.find((genre) => genre.id === id);
+    return matchedObject || null;
+  });
+
+  const getWindowSizeHandler = () => {
+    setWindowDimensions((prevState) => {
+      return {
+        ...prevState,
+        width: window.innerWidth,
+        height: window.innerHeight,
+      };
+    });
+  };
+
+  let dynamicContent = {
+    name: "",
+    value: "",
+  };
+
+  switch (title) {
+    case "Upcoming Movies":
+      dynamicContent = {
+        name: "Release Date :",
+        value: movie.release_date,
+      };
+      break;
+    case "Popular Movies":
+      dynamicContent = {
+        name: "Popularity :",
+        value: movie.popularity,
+      };
+      break;
+    case "Top-Rated Movies":
+      dynamicContent = {
+        name: "Ratings :",
+        value: movie.vote_average.toFixed(1),
+      };
+      break;
+    default:
+      return dynamicContent;
+  }
+
+  // console.log(movie);
 
   return (
-    <>
-      {isLoading ? (
-        <Skeleton
-          variant="rectangular"
-          animation="wave"
-          width={260}
-          height={360}
-        />
-      ) : (
-        <Card
-          sx={{
-            maxWidth: "240px",
-            minWidth: "240px",
-            textAlign: "center",
-            bgcolor: "#172e47",
-          }}
-        >
-          <Link
-            to={`/movie/${id}`}
-            style={{ textDecoration: "none", color: "black" }}
-          >
-            <CardActionArea
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                height: "100%",
-              }}
-            >
-              <Box position="relative">
-                <CardMedia
-                  component="img"
-                  image={`https://image.tmdb.org/t/p/original${poster_path}`}
-                  alt={title}
-                />
-                <Chip
-                  icon={<StarIcon style={{ color: "gold" }} />}
-                  label={vote_average}
-                  size="small"
-                  sx={{
-                    color: "gold",
-                    bgcolor: "gray",
-                    border: "1px solid gold",
-                    borderRadius: 1,
-                    fontWeight: "bolder",
-                    position: "absolute",
-                    left: 2,
-                    bottom: 4,
-                  }}
-                />
-              </Box>
-              <CardContent
-                sx={{
-                  p: 1,
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "space-between",
-                  height: "100%",
-                  width: "100%",
-                  color: "#E7E7E9",
-                }}
-              >
-                <Typography variant="body1" fontWeight="bold">
-                  {title}
-                </Typography>
-                <Typography variant="caption">({releaseYear})</Typography>
-                <Button
-                  variant="contained"
-                  component="div"
-                  size="small"
-                  sx={{ marginTop: "auto", bgcolor: "#415A77" }}
-                >
-                  View more
-                </Button>
-              </CardContent>
-            </CardActionArea>
-          </Link>
-        </Card>
-      )}
-    </>
+    <section
+      style={{
+        maxWidth:
+          windowDimensions.width * 0.5 > 260
+            ? 260
+            : windowDimensions.width * 0.5,
+      }}
+      className="flex flex-col h-full gap-2 bg-secondary rounded-md"
+    >
+      <img
+        src={fetchImage500(movie?.poster_path)}
+        alt="movie"
+        style={{
+          maxWidth:
+            windowDimensions.width * 0.5 > 280
+              ? 260
+              : windowDimensions.width * 0.5,
+        }}
+        className={`drop-shadow-2xl object-cover rounded-t-md`}
+      />
+
+      <div className="px-2 flex flex-col gap-2">
+        <h3 className="font-semibold text-center text-xl">
+          {movie?.original_title.length > 22
+            ? movie?.original_title.slice(0, 22) + "..."
+            : movie?.original_title}
+        </h3>
+
+        <div className="flex justify-center items-center gap-1">
+          {matchedArray.slice(0, 3).map((item, index) => {
+            let showDot = index + 1 !== movie.genre_ids.slice(0, 3).length;
+            return (
+              <p key={index} className="text-neutral-400 text-xs">
+                {item?.name}
+                {showDot ? " /" : ""}
+              </p>
+            );
+          })}
+        </div>
+
+        <div className="flex justify-center items-center bg-neutral-700 rounded-md">
+          <h3 className="text-neutral-400 text-sm">
+            {dynamicContent.name}&nbsp;
+          </h3>
+          <h3 className="text-sm"> {dynamicContent.value}&nbsp;</h3>
+        </div>
+
+        <p className="text-center text-neutral-300">
+          {movie?.overview.length > 50
+            ? movie?.overview.slice(0, 50) + "..."
+            : movie?.overview}
+        </p>
+      </div>
+
+      <button className="bg-accent w-full font-bold p-1.5 rounded-b-md mt-auto">
+        View More
+      </button>
+    </section>
   );
-}
+};
 
 export default MovieCard;
