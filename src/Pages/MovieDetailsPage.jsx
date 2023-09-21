@@ -71,13 +71,14 @@ const MovieDetailsPage = () => {
             </h1>
             <div className="flex gap-1 text-base text-neutral-300">
               Genres :
-              {movie.genres.map((item, index) => {
-                let showDot = index + 1 !== movie?.genres.slice(0, 3).length;
+              {movie?.genres?.map((item, index) => {
                 return (
-                  <p key={index}>
+                  <button
+                    key={index}
+                    className="px-2 py-1 border-[1px] rounded-full text-sm"
+                  >
                     {item?.name}
-                    {showDot ? " /" : ""}
-                  </p>
+                  </button>
                 );
               })}
             </div>
